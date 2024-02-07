@@ -48,3 +48,16 @@ def read_counter(name):
         return {"Message": f"Counter {name} has not been created"}, status.HTTP_404_NOT_FOUND
     else:
         return {name: COUNTERS[name]}, status.HTTP_200_OK
+
+
+@app.route('/counters/<name>', methods=['DELETE'])
+def delete_counter(name):
+    """Delete a counter"""
+    app.logger.info(f"Request to delete counter: {name}")
+    global COUNTERS
+    if name not in COUNTERS:
+        return {"Message": f"Counter {name} cannot be deleted because it does not exist"}, status.HTTP_404_NOT_FOUND
+    else:
+        del COUNTERS[name]
+
+    return name, status.HTTP_204_NO_CONTENT

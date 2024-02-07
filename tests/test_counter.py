@@ -14,24 +14,22 @@ how to call the web service and assert what it should return.
 from unittest import TestCase
 
 # we need to import the unit under test - counter
-from src.counter import app 
+from src.counter import app
 
 # we need to import the file that contains the status codes
-from src import status 
-import json
+from src import status
 
 
 class CounterTest(TestCase):
 
     def setUp(self):
         self.client = app.test_client()
-        
+
     """Counter tests"""
     def test_create_a_counter(self):
-     """It should create a counter"""
-     
-     result = self.client.post('/counters/foo')
-     self.assertEqual(result.status_code, status.HTTP_201_CREATED)
+        """It should create a counter"""
+        result = self.client.post('/counters/foo')
+        self.assertEqual(result.status_code, status.HTTP_201_CREATED)
 
     def test_duplicate_a_counter(self):
         """It should return an error for duplicates"""
@@ -52,7 +50,7 @@ class CounterTest(TestCase):
         self.assertEqual(baseReq, 0)
         # update counter
         update = client.put('/counters/updateCounter')
-        # check greater than 0 
+        # check greater than 0
         baseReq = update.get_json()['updateCounter']
         self.assertEqual(baseReq, 1)
         # check return success code
@@ -77,3 +75,17 @@ class CounterTest(TestCase):
         # check return success code
         self.assertEqual(getResult.status_code, status.HTTP_404_NOT_FOUND)
 
+    def test_delete_counter(self):
+        """It should return an error for deleting"""
+        # create counter
+        client = app.test_client()
+        client.post('/counters/deleteCounter')
+        # update counter
+        client.put('/counters/deleteCounter')
+        getResult = client.delete('/counters/deleteCounter')
+        # check return success code
+        self.assertEqual(getResult.status_code, status.HTTP_204_NO_CONTENT)
+        # does not exist check
+        getResult = client.get('/counters/deleteCounter2')
+        # check return success code
+        self.assertEqual(getResult.status_code, status.HTTP_404_NOT_FOUND)
