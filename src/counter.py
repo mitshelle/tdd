@@ -44,7 +44,7 @@ def read_counter(name):
     app.logger.info(f"Request to read counter: {name}")
     global COUNTERS
     # check if not already exist
-    if name not in COUNTERS: 
+    if name not in COUNTERS:
         return {"Message": f"Counter {name} has not been created"}, status.HTTP_404_NOT_FOUND
     else:
         return {name: COUNTERS[name]}, status.HTTP_200_OK
