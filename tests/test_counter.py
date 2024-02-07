@@ -58,7 +58,7 @@ class CounterTest(TestCase):
         # check return success code
         self.assertEqual(update.status_code, status.HTTP_200_OK)
         # check if not exist yet
-        update = client.put('/counters/updateCounter2')
+        update = client.put('/counters/updateCounterNoExist')
         # check return success code
         self.assertEqual(update.status_code, status.HTTP_204_NO_CONTENT)
 
@@ -73,7 +73,7 @@ class CounterTest(TestCase):
         # check return success code
         self.assertEqual(getResult.status_code, status.HTTP_200_OK)
         # does not exist check
-        getResult = client.get('/counters/readCounter2')
+        getResult = client.get('/counters/readCounterNoExist')
         # check return success code
         self.assertEqual(getResult.status_code, status.HTTP_404_NOT_FOUND)
 
