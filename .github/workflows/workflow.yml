@@ -6,7 +6,6 @@ on:
     pull_request: 
         branches: ["main"]
 
-
 jobs:
     build:
         runs-on: ubuntu-latest
@@ -25,4 +24,13 @@ jobs:
             - name: Run unit tests with nose
               run:
                 nosetests -v --with-spec --spec-color --with-coverage --cover-package=app
-                
+            # Add Notification Step
+            - name: Notify on Failure
+              if: failure()
+              run: echo "The CI workflow failed. Please check the build logs for more details."  # Add your notification logic here
+
+            # Placeholder for Performance Testing
+            - name: Performance Testing
+              run: |
+                # Add your performance testing commands here
+                echo "Running performance tests..."
